@@ -15,3 +15,16 @@ type Logger interface {
 	Log(level Level, a ...interface{})
 	Logf(level Level, format string, a ...interface{})
 }
+
+type Wrapper interface {
+	GetLogger() Logger
+
+	Error(a ...interface{})
+	Errorf(format string, a ...interface{})
+	Warn(a ...interface{})
+	Warnf(format string, a ...interface{})
+	Info(a ...interface{})
+	Infof(format string, a ...interface{})
+	Debug(a ...interface{})
+	Debugf(format string, a ...interface{})
+}

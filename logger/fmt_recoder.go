@@ -5,6 +5,7 @@ import "fmt"
 type FmtRecorder struct{}
 
 func (r *FmtRecorder) Log(_ Level, a ...interface{}) {
+	// nolint: forbidigo
 	fmt.Println(a...)
 }
 func (r *FmtRecorder) Logf(_ Level, format string, a ...interface{}) {
@@ -13,5 +14,7 @@ func (r *FmtRecorder) Logf(_ Level, format string, a ...interface{}) {
 			format += "\n"
 		}
 	}
+
+	// nolint: forbidigo
 	fmt.Printf(format, a...)
 }
