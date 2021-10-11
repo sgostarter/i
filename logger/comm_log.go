@@ -10,10 +10,10 @@ type Recorder interface {
 type CommLogger struct {
 	level    Level
 	fields   []Field
-	recorder Recorder
+	recorder []Recorder
 }
 
-func NewCommLogger(recorder Recorder) Logger {
+func NewCommLogger(recorder ...Recorder) Logger {
 	return &CommLogger{
 		level:    LevelInfo,
 		fields:   nil,
@@ -21,11 +21,18 @@ func NewCommLogger(recorder Recorder) Logger {
 	}
 }
 
+func (l *CommLogger) AddRecorder(recorder ...Recorder) Logger {
+	l.recorder = append(l.recorder, recorder...)
+
+	return l
+}
+
 func (l *CommLogger) clone() *CommLogger {
 	newLogger := &CommLogger{}
 	newLogger.level = l.level
 	newLogger.fields = append(newLogger.fields, l.fields...)
 	newLogger.recorder = l.recorder
+
 	return newLogger
 }
 
@@ -51,14 +58,18 @@ func (l *CommLogger) levelShouldRecord(level Level) bool {
 func (l *CommLogger) mapFields(fields ...Field) string {
 	ss := &strings.Builder{}
 	ss.WriteString("[")
+
 	var f bool
+
 	for _, field := range fields {
 		switch field.T {
 		case FieldTypeString:
 			if f {
 				ss.WriteString(" ")
 			}
+
 			f = true
+
 			ss.WriteString(field.K)
 			ss.WriteString(":")
 			ss.WriteString(field.V.(string))
@@ -66,12 +77,15 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 			if f {
 				ss.WriteString(" ")
 			}
+
 			f = true
+
 			ss.WriteString(field.K)
 			ss.WriteString(":")
 			ss.WriteString(field.V.(error).Error())
 		}
 	}
+
 	ss.WriteString("]")
 
 	return ss.String()
@@ -81,12 +95,21 @@ func (l *CommLogger) Log(level Level, a ...interface{}) {
 	if !l.levelShouldRecord(level) {
 		return
 	}
-	l.recorder.Log(level, append([]interface{}{l.mapFields(l.fields...)}, a...)...)
+
+	fields := append([]interface{}{l.mapFields(l.fields...)}, a...)
+	for _, recorder := range l.recorder {
+		recorder.Log(level, fields...)
+	}
 }
 
 func (l *CommLogger) Logf(level Level, format string, a ...interface{}) {
 	if !l.levelShouldRecord(level) {
 		return
 	}
-	l.recorder.Logf(level, l.mapFields(l.fields...)+" "+format, a...)
+
+	tag := l.mapFields(l.fields...)
+
+	for _, recorder := range l.recorder {
+		recorder.Logf(level, tag+" "+format, a...)
+	}
 }
