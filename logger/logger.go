@@ -19,6 +19,7 @@ type Logger interface {
 type Wrapper interface {
 	GetLogger() Logger
 
+	WithFields(fields ...Field) Wrapper
 	Error(a ...interface{})
 	Errorf(format string, a ...interface{})
 	Warn(a ...interface{})
