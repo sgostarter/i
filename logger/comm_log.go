@@ -100,6 +100,10 @@ func (l *CommLogger) Log(level Level, a ...interface{}) {
 	for _, recorder := range l.recorder {
 		recorder.Log(level, fields...)
 	}
+
+	if level == LevelFatal {
+		panic(a)
+	}
 }
 
 func (l *CommLogger) Logf(level Level, format string, a ...interface{}) {
