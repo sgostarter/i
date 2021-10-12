@@ -3,10 +3,11 @@ package logger
 type Level int
 
 const (
-	LevelError = 1
-	LevelWarn  = 2
-	LevelInfo  = 3
-	LevelDebug = 4
+	LevelFatal = 10
+	LevelError = 11
+	LevelWarn  = 12
+	LevelInfo  = 13
+	LevelDebug = 14
 )
 
 type Logger interface {
@@ -20,6 +21,9 @@ type Wrapper interface {
 	GetLogger() Logger
 
 	WithFields(fields ...Field) Wrapper
+
+	Fatal(a ...interface{})
+	Fatalf(ormat string, a ...interface{})
 	Error(a ...interface{})
 	Errorf(format string, a ...interface{})
 	Warn(a ...interface{})

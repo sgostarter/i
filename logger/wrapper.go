@@ -20,6 +20,14 @@ func (wrapper *wrapperImpl) WithFields(fields ...Field) Wrapper {
 	return NewWrapper(l)
 }
 
+func (wrapper *wrapperImpl) Fatal(a ...interface{}) {
+	wrapper.l.Log(LevelFatal, a...)
+}
+
+func (wrapper *wrapperImpl) Fatalf(format string, a ...interface{}) {
+	wrapper.l.Logf(LevelFatal, format, a...)
+}
+
 func (wrapper *wrapperImpl) Error(a ...interface{}) {
 	wrapper.l.Log(LevelError, a...)
 }
