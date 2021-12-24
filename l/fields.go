@@ -1,51 +1,93 @@
 package l
 
-import "github.com/sgostarter/i/logger"
+type FieldType int
 
-func AnyField(k string, v interface{}) logger.Field {
-	return logger.FieldAny(k, v)
+const (
+	FieldTypeAny     FieldType = 0
+	FieldTypeError   FieldType = 1
+	FieldTypeString  FieldType = 2
+	FieldTypeInt     FieldType = 3
+	FieldTypeInt64   FieldType = 4
+	FieldTypeUint    FieldType = 5
+	FieldTypeUint64  FieldType = 6
+	FieldTypeFloat32 FieldType = 7
+	FieldTypeFloat64 FieldType = 8
+)
+
+type Field struct {
+	T FieldType
+	K string
+	V interface{}
 }
 
-func ErrorField(err error) logger.Field {
-	return logger.Field{
-		T: logger.FieldTypeError,
+func FieldAny(k string, v interface{}) Field {
+	return Field{
+		T: FieldTypeAny,
+		K: k,
+		V: v,
+	}
+}
+
+func FieldError(key string, err error) Field {
+	return Field{
+		T: FieldTypeError,
+		K: key,
+		V: err,
+	}
+}
+
+func FieldString(key, s string) Field {
+	return Field{
+		T: FieldTypeString,
+		K: key,
+		V: s,
+	}
+}
+
+func AnyField(k string, v interface{}) Field {
+	return FieldAny(k, v)
+}
+
+func ErrorField(err error) Field {
+	return Field{
+		T: FieldTypeError,
 		K: "err",
 		V: err,
 	}
 }
 
-func StringField(key, s string) logger.Field {
-	return logger.FieldString(key, s)
+func StringField(key, s string) Field {
+	return FieldString(key, s)
 }
 
-func newField(t logger.FieldType, k string, v interface{}) logger.Field {
-	return logger.Field{
+func newField(t FieldType, k string, v interface{}) Field {
+	return Field{
 		T: t,
 		K: k,
 		V: v,
 	}
 }
 
-func IntField(k string, v int) logger.Field {
-	return newField(logger.FieldTypeInt, k, v)
+func IntField(k string, v int) Field {
+	return newField(FieldTypeInt, k, v)
 }
 
-func Int64Field(k string, v int64) logger.Field {
-	return newField(logger.FieldTypeInt64, k, v)
+func Int64Field(k string, v int64) Field {
+	return newField(FieldTypeInt64, k, v)
 }
 
-func UIntField(k string, v string) logger.Field {
-	return newField(logger.FieldTypeUint, k, v)
+func UIntField(k string, v string) Field {
+	return newField(FieldTypeUint, k, v)
 }
 
-func UInt64Field(k string, v uint64) logger.Field {
-	return newField(logger.FieldTypeUint64, k, v)
+func UInt64Field(k string, v uint64) Field {
+	return newField(FieldTypeUint64, k, v)
 }
 
-func FloatField32(k string, v float32) logger.Field {
-	return newField(logger.FieldTypeFloat32, k, v)
+func FloatField32(k string, v float32) Field {
+	return newField(FieldTypeFloat32, k, v)
 }
 
-func Float64Field(k string, v float64) logger.Field {
-	return newField(logger.FieldTypeFloat64, k, v)
+func Float64Field(k string, v float64) Field {
+	return newField(FieldTypeFloat64, k, v)
 }

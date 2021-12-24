@@ -1,4 +1,4 @@
-package logger
+package l
 
 func NewNopLoggerWrapper() Wrapper {
 	return NewWrapper(&NopLogger{})
