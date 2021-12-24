@@ -3,9 +3,15 @@ package logger
 type FieldType int
 
 const (
-	FieldTypeAny    FieldType = 0
-	FieldTypeError  FieldType = 1
-	FieldTypeString FieldType = 2
+	FieldTypeAny     FieldType = 0
+	FieldTypeError   FieldType = 1
+	FieldTypeString  FieldType = 2
+	FieldTypeInt     FieldType = 3
+	FieldTypeInt64   FieldType = 4
+	FieldTypeUint    FieldType = 5
+	FieldTypeUint64  FieldType = 6
+	FieldTypeFloat   FieldType = 7
+	FieldTypeFloat64 FieldType = 8
 )
 
 type Field struct {
