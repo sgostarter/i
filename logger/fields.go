@@ -10,7 +10,7 @@ const (
 	FieldTypeInt64   FieldType = 4
 	FieldTypeUint    FieldType = 5
 	FieldTypeUint64  FieldType = 6
-	FieldTypeFloat   FieldType = 7
+	FieldTypeFloat32 FieldType = 7
 	FieldTypeFloat64 FieldType = 8
 )
 
