@@ -26,26 +26,26 @@ func newField(t logger.FieldType, k string, v interface{}) logger.Field {
 	}
 }
 
-func IntField(key, s string) logger.Field {
-	return newField(logger.FieldTypeInt, key, s)
+func IntField(k string, v int) logger.Field {
+	return newField(logger.FieldTypeInt, k, v)
 }
 
-func Int64Field(key, s string) logger.Field {
-	return newField(logger.FieldTypeInt64, key, s)
+func Int64Field(k string, v int64) logger.Field {
+	return newField(logger.FieldTypeInt64, k, v)
 }
 
-func UIntField(key, s string) logger.Field {
-	return newField(logger.FieldTypeUint, key, s)
+func UIntField(k string, v string) logger.Field {
+	return newField(logger.FieldTypeUint, k, v)
 }
 
-func UInt64Field(key, s string) logger.Field {
-	return newField(logger.FieldTypeUint64, key, s)
+func UInt64Field(k string, v uint64) logger.Field {
+	return newField(logger.FieldTypeUint64, k, v)
 }
 
-func FloatField(key, s string) logger.Field {
-	return newField(logger.FieldTypeFloat, key, s)
+func FloatField32(k string, v float32) logger.Field {
+	return newField(logger.FieldTypeFloat32, k, v)
 }
 
-func Float64Field(key, s string) logger.Field {
-	return newField(logger.FieldTypeFloat64, key, s)
+func Float64Field(k string, v float64) logger.Field {
+	return newField(logger.FieldTypeFloat64, k, v)
 }
