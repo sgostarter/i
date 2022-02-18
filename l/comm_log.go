@@ -1,6 +1,9 @@
 package l
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 type Recorder interface {
 	Log(level Level, a ...interface{})
@@ -72,7 +75,9 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 
 			ss.WriteString(field.K)
 			ss.WriteString(":")
-			ss.WriteString(field.V.(string))
+			if s, ok := field.V.(string); ok {
+				ss.WriteString(s)
+			}
 		case FieldTypeError:
 			if f {
 				ss.WriteString(" ")
@@ -82,7 +87,19 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 
 			ss.WriteString(field.K)
 			ss.WriteString(":")
-			ss.WriteString(field.V.(error).Error())
+			if s, ok := field.V.(error); ok {
+				ss.WriteString(s.Error())
+			}
+		default:
+			if f {
+				ss.WriteString(" ")
+			}
+
+			f = true
+
+			ss.WriteString(field.K)
+			ss.WriteString(":")
+			ss.WriteString(fmt.Sprintf("%v", field.V))
 		}
 	}
 
