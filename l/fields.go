@@ -1,5 +1,7 @@
 package l
 
+import "time"
+
 type FieldType int
 
 const (
@@ -12,6 +14,7 @@ const (
 	FieldTypeUint64  FieldType = 6
 	FieldTypeFloat32 FieldType = 7
 	FieldTypeFloat64 FieldType = 8
+	FieldTypeTime    FieldType = 9
 )
 
 type Field struct {
@@ -41,6 +44,14 @@ func FieldString(key, s string) Field {
 		T: FieldTypeString,
 		K: key,
 		V: s,
+	}
+}
+
+func FieldTime(key string, t time.Time) Field {
+	return Field{
+		T: FieldTypeTime,
+		K: key,
+		V: t,
 	}
 }
 
