@@ -47,14 +47,6 @@ func FieldString(key, s string) Field {
 	}
 }
 
-func FieldTime(key string, t time.Time) Field {
-	return Field{
-		T: FieldTypeTime,
-		K: key,
-		V: t,
-	}
-}
-
 func AnyField(k string, v interface{}) Field {
 	return FieldAny(k, v)
 }
@@ -67,16 +59,16 @@ func ErrorField(err error) Field {
 	}
 }
 
-func StringField(key, s string) Field {
-	return FieldString(key, s)
-}
-
 func newField(t FieldType, k string, v interface{}) Field {
 	return Field{
 		T: t,
 		K: k,
 		V: v,
 	}
+}
+
+func StringField(key, s string) Field {
+	return FieldString(key, s)
 }
 
 func IntField(k string, v int) Field {
@@ -95,10 +87,14 @@ func UInt64Field(k string, v uint64) Field {
 	return newField(FieldTypeUint64, k, v)
 }
 
-func FloatField32(k string, v float32) Field {
+func Float32Field(k string, v float32) Field {
 	return newField(FieldTypeFloat32, k, v)
 }
 
 func Float64Field(k string, v float64) Field {
 	return newField(FieldTypeFloat64, k, v)
+}
+
+func TimeField(k string, v time.Time) Field {
+	return newField(FieldTypeTime, k, v)
 }
