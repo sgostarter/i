@@ -75,6 +75,7 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 
 			ss.WriteString(field.K)
 			ss.WriteString(":")
+
 			if s, ok := field.V.(string); ok {
 				ss.WriteString(s)
 			}
@@ -87,6 +88,7 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 
 			ss.WriteString(field.K)
 			ss.WriteString(":")
+
 			if s, ok := field.V.(error); ok {
 				ss.WriteString(s.Error())
 			}
