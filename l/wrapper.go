@@ -92,7 +92,7 @@ func (wrapper *contextWrapperImpl) logWithContext(ctx context.Context, level Lev
 	if wrapper.lc != nil {
 		wrapper.lc.LogWithContext(ctx, level, a...)
 	} else {
-		wrapper.lc.Log(level, a...)
+		wrapper.l.Log(level, a...)
 	}
 }
 
@@ -100,7 +100,7 @@ func (wrapper *contextWrapperImpl) logWithContextf(ctx context.Context, level Le
 	if wrapper.lc != nil {
 		wrapper.lc.LogWithContextf(ctx, level, format, a...)
 	} else {
-		wrapper.lc.Logf(level, format, a...)
+		wrapper.l.Logf(level, format, a...)
 	}
 }
 
