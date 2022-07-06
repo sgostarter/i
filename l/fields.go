@@ -5,16 +5,18 @@ import "time"
 type FieldType int
 
 const (
-	FieldTypeAny     FieldType = 0
-	FieldTypeError   FieldType = 1
-	FieldTypeString  FieldType = 2
-	FieldTypeInt     FieldType = 3
-	FieldTypeInt64   FieldType = 4
-	FieldTypeUint    FieldType = 5
-	FieldTypeUint64  FieldType = 6
-	FieldTypeFloat32 FieldType = 7
-	FieldTypeFloat64 FieldType = 8
-	FieldTypeTime    FieldType = 9
+	FieldTypeAny      FieldType = 0
+	FieldTypeError    FieldType = 1
+	FieldTypeString   FieldType = 2
+	FieldTypeInt      FieldType = 3
+	FieldTypeInt64    FieldType = 4
+	FieldTypeUint     FieldType = 5
+	FieldTypeUint64   FieldType = 6
+	FieldTypeFloat32  FieldType = 7
+	FieldTypeFloat64  FieldType = 8
+	FieldTypeTime     FieldType = 9
+	FieldTypeBool     FieldType = 10
+	FieldTypeDuration FieldType = 11
 )
 
 type Field struct {
@@ -97,4 +99,12 @@ func Float64Field(k string, v float64) Field {
 
 func TimeField(k string, v time.Time) Field {
 	return newField(FieldTypeTime, k, v)
+}
+
+func BoolField(k string, v bool) Field {
+	return newField(FieldTypeBool, k, v)
+}
+
+func DurationField(k string, v time.Duration) Field {
+	return newField(FieldTypeDuration, k, v)
 }
