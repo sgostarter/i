@@ -22,6 +22,7 @@ func (wrapper *wrapperImpl) WithFields(fields ...Field) Wrapper {
 
 func (wrapper *wrapperImpl) Fatal(a ...interface{}) {
 	wrapper.l.Log(LevelFatal, a...)
+	panic(a)
 }
 
 func (wrapper *wrapperImpl) Fatalf(format string, a ...interface{}) {

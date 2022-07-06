@@ -5,7 +5,9 @@ func NewNopLoggerWrapper() Wrapper {
 }
 
 func NewConsoleLoggerWrapper() Wrapper {
-	log := &CommLogger{}
+	log := &CommLogger{
+		level: LevelInfo,
+	}
 	log.AddRecorder(&FmtRecorder{})
 
 	return NewWrapper(log)
