@@ -1,12 +1,13 @@
 package l
 
 import (
+	"context"
 	"sync"
 	"time"
 )
 
 type LoggerChain interface {
-	Logger
+	LoggerWithContext
 
 	AppendLogger(log Logger)
 }
@@ -72,5 +73,31 @@ func (impl *loggerChainImpl) Logf(level Level, format string, a ...interface{}) 
 
 	for _, log := range impl.loggers {
 		log.Logf(level, format, a...)
+	}
+}
+
+func (impl *loggerChainImpl) LogWithContext(ctx context.Context, level Level, a ...interface{}) {
+	impl.RLock()
+	defer impl.RUnlock()
+
+	for _, log := range impl.loggers {
+		if cLog, _ := log.(LoggerWithContext); cLog != nil {
+			cLog.LogWithContext(ctx, level, a...)
+		} else {
+			log.Log(level, a...)
+		}
+	}
+}
+
+func (impl *loggerChainImpl) LogWithContextf(ctx context.Context, level Level, format string, a ...interface{}) {
+	impl.RLock()
+	defer impl.RUnlock()
+
+	for _, log := range impl.loggers {
+		if cLog, _ := log.(LoggerWithContext); cLog != nil {
+			cLog.LogWithContextf(ctx, level, format, a...)
+		} else {
+			log.Logf(level, format, a...)
+		}
 	}
 }
