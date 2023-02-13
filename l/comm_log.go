@@ -3,6 +3,7 @@ package l
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 type Recorder interface {
@@ -11,16 +12,27 @@ type Recorder interface {
 }
 
 type CommLogger struct {
-	level    Level
-	fields   []Field
-	recorder []Recorder
+	level      Level
+	fields     []Field
+	recordTime bool
+	recorder   []Recorder
 }
 
 func NewCommLogger(recorder ...Recorder) Logger {
 	return &CommLogger{
-		level:    LevelInfo,
-		fields:   nil,
-		recorder: recorder,
+		level:      LevelInfo,
+		fields:     nil,
+		recordTime: true,
+		recorder:   recorder,
+	}
+}
+
+func NewCommLoggerEx(recordTime bool, recorder ...Recorder) Logger {
+	return &CommLogger{
+		level:      LevelInfo,
+		fields:     nil,
+		recordTime: recordTime,
+		recorder:   recorder,
 	}
 }
 
@@ -115,9 +127,17 @@ func (l *CommLogger) Log(level Level, a ...interface{}) {
 		return
 	}
 
-	fields := append([]interface{}{l.mapFields(l.fields...)}, a...)
+	vs := make([]interface{}, 0, 10)
+
+	if l.recordTime {
+		vs = append(vs, time.Now().Format(time.RFC3339))
+	}
+
+	vs = append(vs, l.mapFields(l.fields...))
+	vs = append(vs, a...)
+
 	for _, recorder := range l.recorder {
-		recorder.Log(level, fields...)
+		recorder.Log(level, vs...)
 	}
 
 	if level == LevelFatal {
@@ -132,7 +152,15 @@ func (l *CommLogger) Logf(level Level, format string, a ...interface{}) {
 
 	tag := l.mapFields(l.fields...)
 
+	if l.recordTime {
+		tag = time.Now().Format(time.RFC3339) + " " + tag
+	}
+
 	for _, recorder := range l.recorder {
 		recorder.Logf(level, tag+" "+format, a...)
+	}
+
+	if level == LevelFatal {
+		panic(a)
 	}
 }
