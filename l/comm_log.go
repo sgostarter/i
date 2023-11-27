@@ -47,6 +47,7 @@ func (l *CommLogger) clone() *CommLogger {
 	newLogger.level = l.level
 	newLogger.fields = append(newLogger.fields, l.fields...)
 	newLogger.recorder = l.recorder
+	newLogger.recordTime = l.recordTime
 
 	return newLogger
 }
