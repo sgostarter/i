@@ -2,7 +2,7 @@ package l
 
 import "testing"
 
-func TestConsoleLoggerWrapper(t *testing.T) {
+func TestConsoleLoggerWrapper(_ *testing.T) {
 	logger := NewConsoleLoggerWrapper()
 	logger.GetLogger().SetLevel(LevelWarn)
 
@@ -12,7 +12,7 @@ func TestConsoleLoggerWrapper(t *testing.T) {
 	logger.Error("d")
 }
 
-func TestFileLoggerWrapper(t *testing.T) {
+func TestFileLoggerWrapper(_ *testing.T) {
 	logger := NewFileLoggerWrapper("logs/file.log")
 	logger.GetLogger().SetLevel(LevelWarn)
 
@@ -22,7 +22,7 @@ func TestFileLoggerWrapper(t *testing.T) {
 	logger.Error("d")
 }
 
-func TestFileLoggerWrapper2(t *testing.T) {
+func TestFileLoggerWrapper2(_ *testing.T) {
 	logger := NewCommLoggerEx(true, NewFileRecorder("logs/file.log"))
 	logger.SetLevel(LevelInfo)
 

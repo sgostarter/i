@@ -71,7 +71,7 @@ func (l *CommLogger) levelShouldRecord(level Level) bool {
 	return level <= l.level
 }
 
-func (l *CommLogger) mapFields(fields ...Field) string {
+func (*CommLogger) mapFields(fields ...Field) string {
 	ss := &strings.Builder{}
 	ss.WriteString("[")
 
@@ -114,7 +114,7 @@ func (l *CommLogger) mapFields(fields ...Field) string {
 
 			ss.WriteString(field.K)
 			ss.WriteString(":")
-			ss.WriteString(fmt.Sprintf("%v", field.V))
+			_, _ = fmt.Fprintf(ss, "%v", field.V)
 		}
 	}
 
@@ -128,7 +128,7 @@ func (l *CommLogger) Log(level Level, a ...interface{}) {
 		return
 	}
 
-	vs := make([]interface{}, 0, 10)
+	vs := make([]interface{}, 0, len(l.fields)+len(a)+1)
 
 	if l.recordTime {
 		vs = append(vs, time.Now().Format(time.RFC3339))

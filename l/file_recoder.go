@@ -14,7 +14,7 @@ func NewFileRecorder(filePath string) Recorder {
 
 	_ = os.MkdirAll(dir, os.ModePerm)
 
-	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666) //nolint: mnd // .
 	if err != nil {
 		return nil
 	}
@@ -28,10 +28,10 @@ type fileRecorderImpl struct {
 	f *os.File
 }
 
-func (impl *fileRecorderImpl) Log(level Level, a ...interface{}) {
-	_, _ = impl.f.WriteString(fmt.Sprintln(a...))
+func (impl *fileRecorderImpl) Log(_ Level, a ...interface{}) {
+	_, _ = fmt.Fprintln(impl.f, a...)
 }
 
-func (impl *fileRecorderImpl) Logf(level Level, format string, a ...interface{}) {
+func (impl *fileRecorderImpl) Logf(_ Level, format string, a ...interface{}) {
 	_, _ = impl.f.WriteString(fmt.Sprintf(format, a...) + "\n")
 }

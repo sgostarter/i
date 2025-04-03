@@ -81,7 +81,7 @@ func Int64Field(k string, v int64) Field {
 	return newField(FieldTypeInt64, k, v)
 }
 
-func UIntField(k string, v string) Field {
+func UIntField(k, v string) Field {
 	return newField(FieldTypeUint, k, v)
 }
 

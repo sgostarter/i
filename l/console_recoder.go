@@ -4,17 +4,17 @@ import "fmt"
 
 type ConsoleRecorder struct{}
 
-func (r *ConsoleRecorder) Log(_ Level, a ...interface{}) {
-	// nolint: forbidigo
+func (*ConsoleRecorder) Log(_ Level, a ...interface{}) {
+	//nolint: forbidigo // only  debug
 	fmt.Println(a...)
 }
-func (r *ConsoleRecorder) Logf(_ Level, format string, a ...interface{}) {
-	if len(format) > 0 {
+func (*ConsoleRecorder) Logf(_ Level, format string, a ...interface{}) {
+	if format != "" {
 		if format[len(format)-1] != '\n' {
 			format += "\n"
 		}
 	}
 
-	// nolint: forbidigo
+	//nolint: forbidigo // only debug
 	fmt.Printf(format, a...)
 }

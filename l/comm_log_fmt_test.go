@@ -2,7 +2,7 @@ package l
 
 import "testing"
 
-func TestCommLogger_Log(t *testing.T) {
+func TestCommLogger_Log(_ *testing.T) {
 	r := &ConsoleRecorder{}
 	l := NewCommLogger(r)
 	l.WithFields(FieldString("key1", "val1"), FieldString("key2", "val2")).Log(LevelInfo, "hello, world")
